@@ -114,6 +114,9 @@ employment %>%
   select(population, labor_force, employed_total, unemployed, not_in_labor) %>%
   summary()
 ```
+
+### Take away from the summary of each variable
+
 Given the summary statistics, from the years of 1990-2024, with a minimum population of 189164 thousand to maximum of 268571 thousand, the minimum number of unemployed people were 5692 thousand and max being 15825. 
 
 ```{r}
@@ -126,6 +129,8 @@ monthly_covid %>%
   select(rate) %>%
   summary()
 ```
+### Take away from the summary of 2 important periods
+
 From the summary statistics of the Great Recession, we see that the maximum rate is 10, while the minimum is 4, and the median is 7.4. For COVID-19, the minimum is 3.4, and the maximum is 14.8, and the median is 3.85. Although this is helpful information, we need to visualize and also obtain the central tendacies for more information to see the difference in recovery during these two periods. 
 
 # Data Visualization and Central Tendencies
@@ -184,7 +189,7 @@ monthly_rec %>%
   )
 ```
 
-### Take away
+### ### Take away from the central tendencies from Great Recession period
 
 From the central tendencies of the Great Recession, we see that mean unemployment rates were highest from 2009-2012 with a very gradual decrease. Although the recession began in 2007, unemployment didn't hit numbers until 2009, however, that was when the recession was considered "done" on June 2009. We see that unemployment spikes when the recession was considered over. After that, the average level of rate declined gradually through 2012-2014. We can observe that the increase process of unemployment rate is much faster then the decrease process.
 
@@ -210,7 +215,7 @@ ggplot(monthly_rec, aes(x = month, y = factor(Year), fill = rate)) +
   theme_minimal() 
 ```
 
-### Take away for the 2 Great Recession period
+### Take away for the 2 Great Recession period plots
 
 Both visualizations display the interesting impact of the Great Recession on the national unemployment rate. Although the unemployment rate slightly increased when the Great Recession began in December of 2007 this shift is not significant. Notably, the unemployment rate began to steadily increase throughout 2008. This makes sense because as the recession continued to persist more people and businesses were impacted, likely causing more layoff and less hirings. While the unemployment rate is one or two percentage points higher than pre-recession time, it peaks as the recession ends. Most months in 2010 reported unemployment rates of ~9-10%. This shows how the severity of the economic downturn on unemployment rates hit later. Looking at years following the Great Recession, even by 2014 unemployment rates are at around 6% which is still higher than pre-recession times. Despite the event beginning 7 years prior, the job market is still reaping the impacts. This underscores how employment is greatly affected by recessions not just in the years they occur but mostly in the period after. 
 
@@ -231,7 +236,7 @@ monthly_covid %>%
   )
 ```
 
-### Take away
+### Take away from the central tendencies from COVID-19 period
 
 From the central tendencies from COVID-19, we see that unemployment rates were the highest in 2020, but only during that year. Given the trends from the Great Recession, I would have assumed that there would be a gradual decrease in unemployment rates, however by 2021 average unemployment seems to decrease by a significant amount, and by 2022 it returned to how it was in 2019.After that, the unemployment rate didn't change much in level and range. From the difference in trends, we can see how the recovery time for unemployment was much better during COVID-19 than during the Great Recession. 
 
@@ -258,7 +263,7 @@ ggplot(monthly_covid, aes(x = month_name, y = factor(Year), fill = rate)) +
   theme_minimal() 
 ```
 
-### Take away for the 2 Great Recession period
+### Take away for the 2 Great Recession period plots
 
 The line graph shows a clear peak in the unemployment rate during April of 2020. This is right when the pandemic officially began, indicating that unemployment quickly rose. The heatmap also displays this trend where unemployment is shown with a bright red color contrasting greatly with the purple and orange colors used to show the percentage in March or May. The market was quick to respond to the pandemic. This was likely due to a global shutdown preventing people from doing their work (remote work did not really exist prior to the pandemic) and great uncertainty of pandemic duration. Throughout 2021 unemployment rates are higher than pre-pandemic years, but by 2022 the percentage falls to pre-COVID rates. This indicates the job market's ability to adapt to the pandemic, with the rise of remote work and return to some pre-pandemic practices. Further, the government was able to provide many relief programs to businesses and individuals at the start of the pandemic which enabled many people to keep their jobs and avoid layoffs. 
 
