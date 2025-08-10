@@ -14,10 +14,8 @@ library(readxl)
 
 # Loading data for Unemployment
 ```{r}
-setwd("/Users/leilabuchan/Downloads/")
-setwd("/Users/leilabuchan/Downloads/")
-employment <- read.csv("aat1.csv")
-emp2 <- read_excel("SeriesReport1990-2025.xlsx", skip= 10)
+employment <- read.csv("../data/aat1.csv")
+emp2       <- read_excel("../data/SeriesReport1990-2025.xlsx", skip = 10)
 ```
 
 # Introduction and Motivation
