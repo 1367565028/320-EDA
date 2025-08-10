@@ -19,7 +19,8 @@ This Project is based on R. The project uses 1 dataset of monthly civilian unemp
 2. Raw Data is being kept in `data` folder
 3. Rmd file is being kept in `EDA` folder
 4. HTML report is being kept in `docs` folder
-5. Required packages have been kept with renv
+5. Required packages have been kept with `renv`
+
 
 
 
