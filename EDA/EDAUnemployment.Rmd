@@ -1,76 +1,48 @@
 ---
 title: "EDA Unemployment"
 output: html_document
-date: "2025-07-31"
+date: "2025-08-10"
 author: "Leila Buchan, Alexandra Brown and Michael Zhao"
 ---
-# Preparations
 
-## Loading Packages
+# Introduction and Motivation
+The dataset contains monthly employment rates in the United States from 1990 to 2025. Each record corresponds to a specific year and month, reporting the seasonally adjusted unemployment rate as a percentage of the civilian labor force. The dataset is sourced from US Bureau of Labor Statistics and accessed via [government website](https://data.bls.gov/timeseries/LNS14000000?). The Bureau of Labor Statistics (BLS) draws data from the Current Population Survey (CPS), administrative records, and Current Employment Statistics (CES). Gathering data from multiple sources enables the BLS to accurately cover employment rates and capture the full picture. 
+
+Employment rates are a key economic statistic that is often used to determine economic health. Given that job availability affects everyone, we are especially interested in this subject as college students preparing to enter the workforce. Understanding the job market provides invaluable insight in how we navigate our career paths and structure our long-term goals. 
+
+Our exploratory analysis seeks to quantify and visualize employment trends in the United States. With this process, we hope to better understand what factors influence the job market. 
+In particular, we are interested if major geopolitical events greatly influence employment rates and the types of jobs available. Our focus on examining recent data from the Great Recession and COVID-19 enables us to see how the world responds to major historical events. Additionally, we aim to investigate whether there have been long-term shifts in employment patterns.
+
+# Data Preparation
+
+## Loading Data and Packages
 ```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(ggplot2)
 library(readxl)
-library(here)
+
+setwd("/Users/leilabuchan/Downloads/")
+emp2 <- read_excel("SeriesReport1990-2025.xlsx", skip= 10)
 ```
 
-## Loading data for Unemployment
-```{r}
-employment <- read.csv(here("data", "aat1.csv"))
-emp2       <- read_excel(here("data", "SeriesReport1990-2025.xlsx"), skip = 10)
-```
+## Cleaning and Filtering Data
 
-## Data Source
+Before analyzing a data set, it is imperative to see the structure of the data set, therefore below, you can see the top 6 rows (1990-1995) and the different months according to each year as the columns, with different unemployment rates as the value.  In order to visualize it so the independent variable is the dates, we do have to restructure the data set to do so, which we do in this section. 
 
-The data set contains yearly employment figures in the United States from 1940 to 2025. The data set is sourced from US Bureau of Labor Statistics and accessed via [GitHub repository](https://github.com/datasets/employment-us/blob/main/data/aat1.csv).
-
-We also included a supplemental data set of monthly unemployment data also sourced from the US Bureau of Labor Statistics. This data was accessed directly from the [government website](https://data.bls.gov/timeseries/LNS14000000?). 
-
-# Introduction
-
-Employment rates are a key economic statistic that is often used to determine economic health. Given that job availability affects everyone, we are especially interested in this subject as college students preparing to enter the workforce. Understanding the job market provides invaluable insight in how we navigate our career paths and structure our long-term goals.
-
-As the data specifically focuses on the US, our goal is to quantify and visualize the unemployment trends since 1990. Based on that, we seek to solve the research question related to how geopolitical events affect the unemployment rate in specific periods. 
-
-`Research questions`:(1) How did the Great Recession and COVID-19's effect on the unemployment rate differ? (2) What is the long-run trend of unemployment from 1990 to 2024?
-
-`Method`:(1) Modify the data, change to standard numeric form, and drop missing values. (2) Define the Great Recession and Covid-19 windows, visualize the change of rate, combining with the central tendencies. (3) Based on the visualization and tendencies, compare the peak severity and recovery persistence of the windows.
-
-
-# Data Restructuring, Filtering and Cleaning
-
-## Inspect the raw structure
-
-Before analyzing a data set, it is imperative to see the structure of the data set, therefore below, you can see the top 6 rows (1990-1995) and the columns with their respective data values. For the second data set, we see from 1990-1995, and the different months according to each year as the columns, with different unemployment rates as the value. In order to visualize it so the independent variable is the dates, we do have to restructure the data set to do so, which we do later throughout the project. 
-
-
-```{r}
-#shows the structure of the data set along with few rows
-head(employment)
-```
 ```{r}
 #shows the structure of the data set along with few rows
 head(emp2)
 ```
 
-## Align the analysis window
+This step prepares the data set for analysis by filtering the different years of one data set to match that of the second data set. 
 
-This step prepares the data set for analysis by filtering the different years of one data set to match that of the second data set. Now, the data set showing employment over the years will only cover unemployment rates from 1990-2024 compared to the original, which covered 1940-2025. 
+## Restructuing for Monthly Analysis 
 
-```{r}
-#renaming column since it is misspelled, and filtering it to after 1990 
-employment <- employment %>%
-  filter(year >= 1990)
-```
-
-## Transforming Data to Long Format for Plotting
-
-The original monthly sheet is in wide form, which is one column per month. We use pivot_longer() to turn the 12-month columns into a single rate column with a month identifier, yielding one row per (Year, Month). We make Year an integer and rate numeric so math and plotting work correctly, keep the month variable from 1-12 for sort and build dates, month_name from Jan-Dec to clean labels for plots, all in mutate(). We also use the drop_na() feature to rid the data of all NAs, and make the data as clean as possible.
-
+We first used the pivot_longer() function and reshaped the format of the data set from wide to long, so that we can plot multiple employment data sets on a single graph, giving us more efficiency of providing information. It converts the months from the emp2 data into a shared column called “months” with the unemployment rates as values. This will help to visualize the data so the independent variable is the months of each year. We then used the mutate() function to change different variables into their respective string types. We also use the function to change the month abbreviations (Jan, Feb,...) into their respective numeric numbers, with Jan being 1, Feb being 2 and so on, so that we can visualize the graph by color depending on the different months. We then add another variable as a column called “month_name” that stores the month abbreviations, so that the heatmap can be visualized by month name rather than the number. We also use the drop_na() feature to rid of all NAs, and make the data as clean as possible
 
 ```{r}
-#creating another data set that looks at each individual months as the independent variable, and the values to be rate. 
+#creating another data set that looks at each individual months as the independent variable, and the valyes to be rate. 
 monthly <- pivot_longer(emp2, -Year, names_to = "month", values_to = "rate") %>%
   mutate(Year = as.integer(Year), #makes the years an int
          rate = as.numeric(rate), #makes the rate numeric number
@@ -79,9 +51,7 @@ monthly <- pivot_longer(emp2, -Year, names_to = "month", values_to = "rate") %>%
     drop_na()
 ```
 
-## Create a monthly date index
-
-We then add a new column called date that shows the date in a format year-month-date. However, assume that the data is from the entire month rather than the first date. For example, the data from the entire month of January for 2007 may look like this: 2007-01-01. This does not mean that it is the data for 1/1/2007, but for the entire month alone. It is set like this so that we can better visualize the unemployment rates per year such that the independent variable is the date and the dependent is the unemployment rates. 
+We then add a new column called data that shows the date in a format year-month-date. However, assume that the data is from the entire month rather than the first date. For example, the data from the entire month of January for 2007 may look like this: 2007-01-01. This does not mean that it is the data for 1/1/2007, but for the entire month alone. It is set like this so that we can better visualize the unemployment rates per year such that the independent variable is the date and the dependent is the unemployment rates. 
 
 ```{r}
 #adds a new column called date that shows the date in a format Year-month-date(assume that the data is from the entire month, not just the first date, it is just formatted this way for visualization)
@@ -89,8 +59,8 @@ monthly <- monthly %>%
   mutate(date = as.Date(paste(Year, month, "01", sep = "-")))
 
 ```
-
-## Define comparison windows 
+ 
+## Subsetting for Key Events
 
 We also made a choice of splitting the data into one data set with the years 2006-2011, which cover the Great Recession, and from 2019-2024, during COVID-19. We do this as unemployment was evidently very high during those times, and we want to study if the recovery from unemployment is gradual, or immediate. By separating the data, we avoid mixing incompatible definitions
 
@@ -104,96 +74,24 @@ monthly_covid <- monthly %>%
   filter(Year >= 2019 & Year <= 2024)
 ```
 
-## Summary of data's statistical values
+# National Unemployment Overview (1990-Present)
 
-A summary would help us quickly understand the basics of the distribution and scale of the variables. The central tendencies(mean, median) and variabilities(standard deviation) can provide us with insights into the data’s change. For example, the min and max of unemployment give extraordinary cases of the unemployment environment. We also see the 1st Quartile Range, and any values from the min to the first quartile range represent the lower 25% of the data, and similar to the 3rd quartile range to max, showing the top 25% of the data. 
-
-```{r}
-#summary statistics for key variables 
-employment %>%
-  select(population, labor_force, employed_total, unemployed, not_in_labor) %>%
-  summary()
-```
-
-### Take away from the summary of each variable
-
-Given the summary statistics, from the years of 1990-2024, with a minimum population of 189164 thousand to maximum of 268571 thousand, the minimum number of unemployed people were 5692 thousand and max being 15825. 
-
-```{r}
-monthly_rec %>%
-  select(rate) %>%
-  summary()
-```
-```{r}
-monthly_covid %>%
-  select(rate) %>%
-  summary()
-```
-### Take away from the summary of 2 important periods
-
-From the summary statistics of the Great Recession, we see that the maximum rate is 10, while the minimum is 4, and the median is 7.4. For COVID-19, the minimum is 3.4, and the maximum is 14.8, and the median is 3.85. Although this is helpful information, we need to visualize and also obtain the central tendacies for more information to see the difference in recovery during these two periods. 
-
-# Data Visualization and Central Tendencies
-
-## Central Tendencies for Overall Period
-
-We use the monthly series and the summarized mean, median, min, max, and number of months observed for each year. It helps us quantify the level and range of the rate for each year, which is important for us when drawing conclusions.
-
-```{r}
-#central tendencies for unemployment over the years 
-monthly %>%
-  group_by(Year) %>%
-  summarise(
-    unemp_mean   = mean(rate, na.rm = TRUE),
-    unemp_median = median(rate, na.rm = TRUE),
-    unemp_min    = min(rate, na.rm = TRUE),
-    unemp_max    = max(rate, na.rm = TRUE),
-    n_months     = sum(!is.na(rate))
-  )
-```
-
-### Take away
-
-From the original data set with the unemployment from 1990-2024, we see the different means, median, min and max by each year. The data, indicates a pattern of cylindrical increasing and decreasing of unemployment rate overtime.
-
-## Data Visualization for Unemployment Rates By year
+## Yearly Trends Showing Cyclical Peaks
 
 We first created a line plot to visualize the national unemployment rate from 1990 to present. This plot allows us to easily see at which points in recent decades have there been the highest and lowest unemployment rates (peaks and troughs). We used the ggplot() to create this plot
 
 ```{r}
 #visualizing unemployment rate from 1990-Present
-ggplot(employment, aes(x = year, y = unemployed_percent)) +
+ggplot(monthly, aes(x = Year, y = rate)) +
   geom_line(color = "red", size = 1) +
   labs(title = "Unemployment Rate in the U.S. (1990–Present)",
        y = "Unemployment Rate (%)", x = "Year") +
   theme_minimal()
 ```
-### Take away of the plot
 
-This line plot reveals that throughout recent decades there are 2 clear cycles frame, a longer elevation around 2010 and a sharper 2020 spike which last shorter. The first one is related to the Great Recession and the second it related to Covid-19. It also emphasizes the volatility related to the job market, as there is no consistency in the unemployment rate across decades or even years. This can also be viewed as a way to show the market resilience to global events, as eventually the unemployment rate does go down.   
+This line plot reveals that throughout recent decades there have been both periods of very high and very low unemployment. One noticeable spike is in 2010, likely due to the great recession. Another noticeable spike is in 2020, probably a result of the COVID-19 pandemic.  It also emphasizes the volatility related to the job market, as there is no consistency in the unemployment rate across decades or even years. This can also be viewed as a way to show the market resilience to global events, as eventually the unemployment rate does go down. It seems the unemployment rates are quite cyclical as within most decades or chunks of time there are reported high and low percentages of unemployment. With these peaks, we look to study more specifics of each crises, and how they managed to recover from such high peaks.   
 
-## Central Tendencies for The Great Recession Period
-
-We use the monthly series and the summarized mean, median, min, max, and number of months observed for the Great Recession period group by year. This information can be a verification of the information provided by the plot.
-
-```{r}
-#central tendencies for unemployment during the Great Recession period, grouped by years 
-monthly_rec %>%
-  group_by(Year) %>%
-  summarise(
-    unemp_mean = mean(rate, na.rm = TRUE),
-    unemp_median = median(rate, na.rm = TRUE),
-    unemp_sd = sd(rate, na.rm = TRUE),
-    unemp_min = min(rate, na.rm = TRUE),
-    unemp_max = max(rate, na.rm = TRUE)
-  )
-```
-
-### ### Take away from the central tendencies from Great Recession period
-
-From the central tendencies of the Great Recession, we see that mean unemployment rates were highest from 2009-2012 with a very gradual decrease. Although the recession began in 2007, unemployment didn't hit numbers until 2009, however, that was when the recession was considered "done" on June 2009. We see that unemployment spikes when the recession was considered over. After that, the average level of rate declined gradually through 2012-2014. We can observe that the increase process of unemployment rate is much faster then the decrease process.
-
-## Data Visualization of Unemployment for the Great Recession Period
+# The Great Recession (2006-2014) 
 
 We wanted to examine the impact of the Great Recession on employment rates. The recession began in December 2007 and ended in June 2009. Thus, we made our graph range from 2006-2014 to fully examine the complete impact and recovery of the event. We used ggplot() to create a line graph where the shade of blue on the line represents which month of the year. A line graph lets trends and peaks in unemployment rate be visualized clearly to our audience.  We also used ggplot() to create a heat map where the percentage of unemployment is visualized with different colors of the rainbow (red is the highest percentage). Utilizing a heat map where color is associated with unemployment percentage shows directly when unemployment is high (versus average/low). 
 
@@ -205,6 +103,8 @@ ggplot(monthly_rec, aes(x = date, y = rate, color = month)) +
        x = "Date", y = "Unemployment Rate (%)") +
   theme_minimal()
 ```
+
+## Peak Unemployment Occured after Recessions Official End
 ```{r}
 #Looking at a heat map for Unemployment over the months
 ggplot(monthly_rec, aes(x = month, y = factor(Year), fill = rate)) +
@@ -215,14 +115,51 @@ ggplot(monthly_rec, aes(x = month, y = factor(Year), fill = rate)) +
   theme_minimal() 
 ```
 
-### Take away for the 2 Great Recession period plots
-
 Both visualizations display the interesting impact of the Great Recession on the national unemployment rate. Although the unemployment rate slightly increased when the Great Recession began in December of 2007 this shift is not significant. Notably, the unemployment rate began to steadily increase throughout 2008. This makes sense because as the recession continued to persist more people and businesses were impacted, likely causing more layoff and less hirings. While the unemployment rate is one or two percentage points higher than pre-recession time, it peaks as the recession ends. Most months in 2010 reported unemployment rates of ~9-10%. This shows how the severity of the economic downturn on unemployment rates hit later. Looking at years following the Great Recession, even by 2014 unemployment rates are at around 6% which is still higher than pre-recession times. Despite the event beginning 7 years prior, the job market is still reaping the impacts. This underscores how employment is greatly affected by recessions not just in the years they occur but mostly in the period after. 
 
-## Central Tendencies for The Covid-19
+## Summary Statistics for Great Recession 
 
-We use the monthly series and the summarized mean, median, min, max, and number of months observed for the Covid-19 period group by year. This information can be a verification of the information provided by the plot.
+```{r}
+monthly_rec %>%
+  group_by(Year) %>%
+  summarise(
+    unemp_mean = mean(rate, na.rm = TRUE),
+    unemp_median = median(rate, na.rm = TRUE),
+    unemp_sd = sd(rate, na.rm = TRUE),
+    unemp_min = min(rate, na.rm = TRUE),
+    unemp_max = max(rate, na.rm = TRUE)
+  )
+```
 
+From the central tendencies of the Great Recession, we see that mean unemployment rates were highest from 2009-2012 with a very gradual decrease. Although the recession began in 2007, unemployment didnt hit numbers until 2009, however, that was when the recession was considered "done" on June 2009. We see that unemployment spikes when the recession was considered over, which I find interesting and it took a very long time to recover, with each year being a slight decrease in the average unemployment rates. If we wanted to look at the median only, we also see very similar trends. 
+
+# COVID-19 Pandemic (2019-2024)
+
+## Monthly Trends Showing Rapid Rise and Recovery
+We also looked more closely at unemployment rates during the COVID-19 pandemic to see if the market responds the same to different types of historical events. To be consistent in our analysis, we followed a similar procedure as earlier. The pandemic began in March 2020 and ended May 2023, so we used a date range from January 2019-December 2024. Like the prior visualizations, we used ggplot() to create a line graph with the shade of blue on the line representing which month of the year and ggplot() to create a heat map where the percentage of unemployment is visualized with different colors of the rainbow (red is the highest percentage). 
+
+```{r}
+#Given the COVID-19 data, seeing the unemployment rate with shades of blue being the different months in each year 
+ggplot(monthly_covid, aes(x = date, y = rate, color = month)) +
+  geom_line() +
+  labs(title = "Monthly Unemployment Rate (2019–2024)",
+       x = "Date", y = "Unemployment Rate (%)") +
+  theme_minimal()
+```
+# Peak Unemployment in April 2020
+```{r}
+#Heat map showing unemployment over the months during the time of COVID-19 
+ggplot(monthly_covid, aes(x = month_name, y = factor(Year), fill = rate)) +
+  geom_tile(color = "white") +
+  scale_fill_gradientn(colors = rev(rainbow(7)), name = "Unemployment (%)") +
+  labs(title = "Monthly Unemployment Rate Heatmap (2019–2024)",
+       x = "Month", y = "Year") +
+  theme_minimal() 
+```
+
+The line graph shows a clear peak in the unemployment rate during April of 2020. This is right when the pandemic officially began, indicating that unemployment quickly rose. The heatmap also displays this trend where unemployment is shown with a bright red color contrasting greatly with the purple and orange colors used to show the percentage in March or May. The market was quick to respond to the pandemic. This was likely due to a global shutdown preventing people from doing their work (remote work did not really exist prior to the pandemic) and great uncertainty of pandemic duration. Throughout 2021 unemployment rates are higher than pre-pandemic years, but by 2022 the percentage falls to pre-COVID rates. This indicates the job market's ability to adapt to the pandemic, with the rise of remote work and return to some pre-pandemic practices. Further, the government was able to provide many relief programs to businesses and individuals at the start of the pandemic which enabled many people to keep their jobs and avoid layoffs. 
+
+# Summary Statistics for COVID-19
 ```{r}
 #central tendencies for unemployment during the COVID-19 period, grouped by years 
 monthly_covid %>%
@@ -236,39 +173,10 @@ monthly_covid %>%
   )
 ```
 
-### Take away from the central tendencies from COVID-19 period
+From the central tendencies from COVID-19, we see that unemployment rates were the highest in 2020, but only during that year. Given the trends from the Great Recession, I would have assumed that there would be a gradual decrease in unemployment rates, however by 2021 average unemployment seems to decrease by a significant amount, and by 2022 it returned to how it was in 2019. From the difference in trends, we can see how the recovery time for unemployment was much better during COVID-19 than during the Great Recession. 
 
-From the central tendencies from COVID-19, we see that unemployment rates were the highest in 2020, but only during that year. Given the trends from the Great Recession, I would have assumed that there would be a gradual decrease in unemployment rates, however by 2021 average unemployment seems to decrease by a significant amount, and by 2022 it returned to how it was in 2019.After that, the unemployment rate didn't change much in level and range. From the difference in trends, we can see how the recovery time for unemployment was much better during COVID-19 than during the Great Recession. 
-
-## Data Visualization of Unemployment for COVID-19 
-
-We also looked more closely at unemployment rates during the COVID-19 pandemic to see if the market responds the same to different types of historical events. To be consistent in our analysis, we followed a similar procedure as earlier. The pandemic began in March 2020 and ended May 2023, so we used a date range from January 2019-December 2024. Like the prior visualizations, we used ggplot() to create a line graph with the shade of blue on the line representing which month of the year and ggplot() to create a heat map where the percentage of unemployment is visualized with different colors of the rainbow (red is the highest percentage). 
-
-```{r}
-#Given the COVID-19 data, seeing the unemployment rate with shades of blue being the different months in each year 
-ggplot(monthly_covid, aes(x = date, y = rate, color = month)) +
-  geom_line() +
-  labs(title = "Monthly Unemployment Rate (2019–2024)",
-       x = "Date", y = "Unemployment Rate (%)") +
-  theme_minimal()
-```
-
-```{r}
-#Heat map showing unemployment over the months during the time of COVID-19 
-ggplot(monthly_covid, aes(x = month_name, y = factor(Year), fill = rate)) +
-  geom_tile(color = "white") +
-  scale_fill_gradientn(colors = rev(rainbow(7)), name = "Unemployment (%)") +
-  labs(title = "Monthly Unemployment Rate Heatmap (2019–2024)",
-       x = "Month", y = "Year") +
-  theme_minimal() 
-```
-
-### Take away for the 2 Great Recession period plots
-
-The line graph shows a clear peak in the unemployment rate during April of 2020. This is right when the pandemic officially began, indicating that unemployment quickly rose. The heatmap also displays this trend where unemployment is shown with a bright red color contrasting greatly with the purple and orange colors used to show the percentage in March or May. The market was quick to respond to the pandemic. This was likely due to a global shutdown preventing people from doing their work (remote work did not really exist prior to the pandemic) and great uncertainty of pandemic duration. Throughout 2021 unemployment rates are higher than pre-pandemic years, but by 2022 the percentage falls to pre-COVID rates. This indicates the job market's ability to adapt to the pandemic, with the rise of remote work and return to some pre-pandemic practices. Further, the government was able to provide many relief programs to businesses and individuals at the start of the pandemic which enabled many people to keep their jobs and avoid layoffs. 
-
-# Conclusion
+# Conclusion and Future Directions
 
 Our EDA Notebook can be used to better understand how the job market has worked throughout time and how it responds to crises. Examining data from 1990-2024, there are obvious peaks and troughs mainly reflecting when major historical events occurred. But in all, the market is quite resilient and eventually is able to return to pre-event levels at right below 5%. The job market also responds quite differently to the type of event. Comparing unemployment trends during the Great Recession and the COVID-19 pandemic there are drastic differences. The impact of the Great Recession on the unemployment rate was felt throughout several years and most heavily after the formal ‘end’ of the recession. While unemployment rates immediately shot up at the beginning of the pandemic and were near pre-pandemic levels at the formal ‘end’. These differences reflect the job market's relationship with uncertainty and time as well as government interference. 
 
-While our data set offers a glimpse into employment rates in the United States throughout years, there are still gaps in the review. Our analysis briefly mentions the relationship between unemployment rates and major historical events. Incorporating geopolitical data to our research would solidify this relationship and deepen our understanding on which types of incidents benefit (or hurt) job rates the most. Further, the data set provides a national employment statistic preventing us from examining regional or occupational differences. Exploring subsets of unemployment data can inform us to which types of jobs or locations are most resilient to job loss. Building off our strong foundational analysis can lead to better understanding of United States unemployment trends and influences. 
+While our data set offers a glimpse into employment rates in the United States throughout years, there are still gaps in the review. Our analysis briefly mentions the relationship between unemployment rates and major historical events. Further, the data set provides a national employment statistic preventing us from examining regional differences. Exploring subsets of unemployment data can inform us to which types of jobs are most resilient to job loss. Building off our strong foundational analysis can lead to better understanding of United States unemployment trends and influences. Specifically, understanding how different regions are impacted and respond to different types of major historical events. With future analysis we hope to answer 1) How do unemployment rates vary across states and regions? And 2) Are some regions and jobs more vulnerable to events?. 
