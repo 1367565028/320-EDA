@@ -48,7 +48,6 @@ This Project is based on R. The project uses 1 dataset of monthly civilian unemp
 5. Required packages have been kept with `renv`
 
 ## Directory
-.
 └── 320 EDA/  
     ├── EDA/  
     │   └── EDAUnemployment.Rmd  
@@ -71,6 +70,7 @@ This Project is based on R. The project uses 1 dataset of monthly civilian unemp
 * Leila's email: leila.buchan@emory.edu  
 * Alex's email: alexandra.brown@emory.edu  
 * Michael's email: michael.zhao@emory.edu
+
 
 
 
