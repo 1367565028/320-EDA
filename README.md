@@ -26,18 +26,7 @@ The purpose of this project is to analyze how the job market responds to differe
 
 ## Project Description
 
-This Project is based on R. The project uses 1 dataset of monthly civilian unemployment rates from 1990 to 2025. Includes introduction, data cleaning and modification, data visualization, summary stats, and conclusion. The project specifically focuses on the unemployment rate during the Great Recession (2006-2014) and the COVID-19 pandemic (2019-2024). The data has been modified, transformed into central tendencies, and visualized in line plots and heatmaps. The two periods are compared, and the project includes the identification of patterns in unemployment spikes and recoveries. The finding of the project is unemployment rate rises and falls in a cyclical pattern, but each cycle would perform differently based on different geopolitical and financial factors during the period.
-
-## Challenges
-
-1. Narrow scope: The project mainly focuses on 2 short time periods, rather than a general timeline, the observations may not be really general enough to conclude the pattern of the job market for the long term.
-2. Missing Interpretation: The Project didn't focus on causality factors but only the plots; some of the causality factors have not been tested.
-
-## Future Steps
-
-1. Focus on different regions responding to the crisis differently.
-2. Apply economic models to geopolitical factors to test the relationship between them and the unemployment rate.
-3. Focus on how groups with different Demographic identities respond.
+This Project is based on R. The project uses 1 dataset of monthly civilian unemployment rates from 1990 to 2025. Includes introduction, data cleaning and modification, data visualization, summary stats, and conclusion. The project specifically focuses on the unemployment rate during the Great Recession (2006-2014) and the COVID-19 pandemic (2019-2024). The data has been modified, transformed into central tendencies, and visualized in line plots and heatmaps. The two periods are compared, and the project includes the identification of patterns in unemployment spikes and recoveries. The finding of the project is unemployment rate rises and falls in a cyclical pattern, but each cycle would perform differently based on different geopolitical and financial factors during the period. The project has 2 significant challenges. First, the project mainly focuses on 2 short time periods, rather than a general timeline, the observations may not be really general enough to conclude the pattern of the job market for the long term. Second, the Project didn't focus on causality factors but only the plots; some of the causality factors have not been tested. In the future, the project will focus on the relationship between different geopolitical and demographic factors and the response of the job market. Using economic models to test factors like region, age, race, etc..
 
 ## Getting Started
 
@@ -70,6 +59,7 @@ This Project is based on R. The project uses 1 dataset of monthly civilian unemp
 * Leila's email: leila.buchan@emory.edu  
 * Alex's email: alexandra.brown@emory.edu  
 * Michael's email: michael.zhao@emory.edu
+
 
 
 
