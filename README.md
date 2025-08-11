@@ -15,11 +15,12 @@ This Project is based on R. The project uses 1 dataset of monthly civilian unemp
 
 ## Getting Started
 
-1. Clone this repo 
-2. Raw Data is being kept in `data` folder
-3. Rmd file is being kept in `EDA` folder
-4. HTML report is being kept in `docs` folder
+1. Clone this repo.  
+2. Raw Data is being kept in `data` folder, `SeriesReport1990-2025.xlsx` includes the data from the US Bureau of Labor Statistics(https://data.bls.gov/timeseries/LNS14000000?).  
+3. Rmd file is being kept in `EDA` folder, it has all the code for the project.
+4. HTML report is being kept in `docs` folder, it is rendered from the R file.
 5. Required packages have been kept with `renv`
+
 
 
 
