@@ -48,28 +48,29 @@ This Project is based on R. The project uses 1 dataset of monthly civilian unemp
 5. Required packages have been kept with `renv`
 
 ## Directory
-└── 320 EDA/  
-    ├── EDA/  
-    │   └── EDAUnemployment.Rmd  
-    ├── data/  
-    │   └── SeriesReport1990-2025.xlsx  
-    ├── docs/  
-    │   └── EDAUnemployment.html  
-    ├── renv/  
-    │   ├── .gitignore  
-    │   ├── activate.R  
-    │   └── settings.json  
-    ├── .Rprofile  
-    ├── .gitignore  
-    ├── 320 EDA.Rproj  
-    ├── README.md  
-    └── renv.lock  
+    └── 320 EDA/  
+        ├── EDA/  
+        │   └── EDAUnemployment.Rmd  
+        ├── data/  
+        │   └── SeriesReport1990-2025.xlsx  
+        ├── docs/  
+        │   └── EDAUnemployment.html  
+        ├── renv/  
+        │   ├── .gitignore  
+        │   ├── activate.R  
+        │   └── settings.json  
+        ├── .Rprofile  
+        ├── .gitignore  
+        ├── 320 EDA.Rproj  
+        ├── README.md  
+        └── renv.lock  
     
 ## Contact
 
 * Leila's email: leila.buchan@emory.edu  
 * Alex's email: alexandra.brown@emory.edu  
 * Michael's email: michael.zhao@emory.edu
+
 
 
 
